@@ -12,7 +12,7 @@ namespace ASF302
 {
 
 	[Export(typeof(IPlugin))]
-	internal sealed class ASF302 : IPlugin, IASF, IBotCommand2
+	internal sealed class ASF302 : IASF, IBotCommand2, IBot
 	{
 		public string Name => nameof(ASF302);
 		public Version Version => typeof(ASF302).Assembly.GetName().Version ?? throw new InvalidOperationException(nameof(Version));
@@ -20,6 +20,7 @@ namespace ASF302
 		public Task OnLoaded()
 		{
 			StringBuilder message = new("\n");
+
 			message.AppendLine(Static.Line);
 			message.AppendLine(Static.Logo);
 			message.AppendLine(Static.Line);
@@ -51,7 +52,7 @@ namespace ASF302
 		{
 			if (!Enum.IsDefined(access))
 			{
-				throw new InvalidEnumArgumentException(nameof(access), (int) access, typeof(EAccess));
+				throw new InvalidEnumArgumentException(nameof(access), (int)access, typeof(EAccess));
 			}
 
 			switch (args.Length)
@@ -63,8 +64,32 @@ namespace ASF302
 					{
 						case "302INSTALL":
 						case "3I":
-							return await CaddyHelper.InstallCaddy().ConfigureAwait(false);
+							return await Caddy.Command.ResponseInstallCaddy().ConfigureAwait(false);
 
+						case "302TEST":
+						case "3T":
+							return await Caddy.Command.ResponseTestCaddy().ConfigureAwait(false);
+
+
+						case "302START":
+						case "3S":
+							return await Caddy.Command.ResponseStartCaddy().ConfigureAwait(false);
+
+						case "302STOP":
+						case "3ST":
+							return await Caddy.Command.ResponseStopCaddy().ConfigureAwait(false);
+
+						case "302RELOAD":
+						case "3R":
+							return await Caddy.Command.ResponseReloadCaddy().ConfigureAwait(false);
+
+						case "302STATUS":
+						case "3SA":
+							return Caddy.Command.ResponseCaddyStatus();
+
+						case "302CONFIG":
+						case "3C":
+							return await Caddy.Command.ResponseConfigCaddy().ConfigureAwait(false);
 
 						default:
 							return null;
@@ -80,5 +105,18 @@ namespace ASF302
 
 		}
 
+		public Task OnBotDestroy(Bot bot)
+		{
+			return Task.CompletedTask;
+		}
+
+		public Task OnBotInit(Bot bot)
+		{
+			//bool success = Caddy.ReflectionHelper.SetCommunityUrl(bot);
+
+			//ASFLogger.LogGenericInfo(success ? "成功" : "失败");
+
+			return Task.CompletedTask;
+		}
 	}
 }

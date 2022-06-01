@@ -7,8 +7,10 @@ using ArchiSteamFarm.Steam.Integration;
 using ArchiSteamFarm.Steam.Interaction;
 using ASF302.Localization;
 
-namespace ASF302 {
-	internal static class Utils {
+namespace ASF302
+{
+	internal static class Utils
+	{
 		/// <summary>
 		/// 格式化返回文本
 		/// </summary>

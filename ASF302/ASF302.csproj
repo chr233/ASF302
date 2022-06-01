@@ -9,6 +9,7 @@
 		<RootNamespace>ASF302</RootNamespace>
 		<RunPostBuildEvent>OnOutputUpdated</RunPostBuildEvent>
 		<ImplicitUsings>enable</ImplicitUsings>
+		<AllowUnsafeBlocks>False</AllowUnsafeBlocks>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -28,6 +29,11 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<Compile Update="Localization\Langs.Designer.cs">
+		  <DesignTime>True</DesignTime>
+		  <AutoGen>True</AutoGen>
+		  <DependentUpon>Langs.resx</DependentUpon>
+		</Compile>
 		<Compile Update="Localization\Static.Designer.cs">
 			<DesignTime>True</DesignTime>
 			<AutoGen>True</AutoGen>
@@ -36,6 +42,10 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<EmbeddedResource Update="Localization\Langs.resx">
+		  <Generator>ResXFileCodeGenerator</Generator>
+		  <LastGenOutput>Langs.Designer.cs</LastGenOutput>
+		</EmbeddedResource>
 		<EmbeddedResource Update="Localization\Static.resx">
 			<Generator>ResXFileCodeGenerator</Generator>
 			<LastGenOutput>Static.Designer.cs</LastGenOutput>
