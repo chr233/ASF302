@@ -16,11 +16,13 @@
 		<PackageReference Include="ConfigureAwaitChecker.Analyzer" PrivateAssets="all" Version="5.0.0.1" />
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
 		<PackageReference Include="System.Composition.AttributedModel" IncludeAssets="compile" Version="6.0.0" />
+		<PackageReference Include="Titanium.Web.Proxy" Version="3.1.1397" />
+		<PackageReference Include="Yarp.ReverseProxy" Version="1.1.0" />
 	</ItemGroup>
 
 	<ItemGroup>
 		<ProjectReference Include="..\ArchiSteamFarm\ArchiSteamFarm\ArchiSteamFarm.csproj">
-		  <Private>False</Private>
+			<Private>False</Private>
 		</ProjectReference>
 	</ItemGroup>
 
@@ -30,9 +32,9 @@
 
 	<ItemGroup>
 		<Compile Update="Localization\Langs.Designer.cs">
-		  <DesignTime>True</DesignTime>
-		  <AutoGen>True</AutoGen>
-		  <DependentUpon>Langs.resx</DependentUpon>
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>Langs.resx</DependentUpon>
 		</Compile>
 		<Compile Update="Localization\Static.Designer.cs">
 			<DesignTime>True</DesignTime>
@@ -43,8 +45,8 @@
 
 	<ItemGroup>
 		<EmbeddedResource Update="Localization\Langs.resx">
-		  <Generator>ResXFileCodeGenerator</Generator>
-		  <LastGenOutput>Langs.Designer.cs</LastGenOutput>
+			<Generator>ResXFileCodeGenerator</Generator>
+			<LastGenOutput>Langs.Designer.cs</LastGenOutput>
 		</EmbeddedResource>
 		<EmbeddedResource Update="Localization\Static.resx">
 			<Generator>ResXFileCodeGenerator</Generator>

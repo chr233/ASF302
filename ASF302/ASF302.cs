@@ -5,6 +5,7 @@ using ArchiSteamFarm.Plugins.Interfaces;
 using ArchiSteamFarm.Steam;
 using ASF302.Localization;
 using Newtonsoft.Json.Linq;
+using ASF302.Proxy;
 
 using static ASF302.Utils;
 
@@ -12,12 +13,14 @@ namespace ASF302
 {
 
 	[Export(typeof(IPlugin))]
-	internal sealed class ASF302 : IASF, IBotCommand2, IBot
+	internal sealed class ASF302 : IASF, IBotCommand2
 	{
 		public string Name => nameof(ASF302);
 		public Version Version => typeof(ASF302).Assembly.GetName().Version ?? throw new InvalidOperationException(nameof(Version));
 
-		public Task OnLoaded()
+		internal HttpProxy TiHttpProxy { get; } = new();
+
+		public async Task OnLoaded()
 		{
 			StringBuilder message = new("\n");
 
@@ -27,7 +30,10 @@ namespace ASF302
 
 			ASFLogger.LogGenericInfo(message.ToString());
 
-			return Task.CompletedTask;
+			await TiHttpProxy.StartProxy().ConfigureAwait(false);
+
+
+			//return Task.CompletedTask;
 		}
 
 		public Task OnASFInit(IReadOnlyDictionary<string, JToken>? additionalConfigProperties = null)
@@ -62,34 +68,7 @@ namespace ASF302
 				case 1: //不带参数
 					switch (args[0].ToUpperInvariant())
 					{
-						case "302INSTALL":
-						case "3I":
-							return await Caddy.Command.ResponseInstallCaddy().ConfigureAwait(false);
 
-						case "302TEST":
-						case "3T":
-							return await Caddy.Command.ResponseTestCaddy().ConfigureAwait(false);
-
-
-						case "302START":
-						case "3S":
-							return await Caddy.Command.ResponseStartCaddy().ConfigureAwait(false);
-
-						case "302STOP":
-						case "3ST":
-							return await Caddy.Command.ResponseStopCaddy().ConfigureAwait(false);
-
-						case "302RELOAD":
-						case "3R":
-							return await Caddy.Command.ResponseReloadCaddy().ConfigureAwait(false);
-
-						case "302STATUS":
-						case "3SA":
-							return Caddy.Command.ResponseCaddyStatus();
-
-						case "302CONFIG":
-						case "3C":
-							return await Caddy.Command.ResponseConfigCaddy().ConfigureAwait(false);
 
 						default:
 							return null;
@@ -105,18 +84,5 @@ namespace ASF302
 
 		}
 
-		public Task OnBotDestroy(Bot bot)
-		{
-			return Task.CompletedTask;
-		}
-
-		public Task OnBotInit(Bot bot)
-		{
-			//bool success = Caddy.ReflectionHelper.SetCommunityUrl(bot);
-
-			//ASFLogger.LogGenericInfo(success ? "成功" : "失败");
-
-			return Task.CompletedTask;
-		}
 	}
 }
